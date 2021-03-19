@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GIBDD.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Drivers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Middlename" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PassportSerial" Type="int" Nullable="false" />
+          <Property Name="PassportNumber" Type="int" Nullable="false" />
+          <Property Name="Postcode" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="AddressLife" Type="nchar" MaxLength="10" />
+          <Property Name="Company" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Jobname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Licences">
+          <Key>
+            <PropertyRef Name="IdZapis" />
+          </Key>
+          <Property Name="IdZapis" Type="int" Nullable="false" />
+          <Property Name="idDriver" Type="int" Nullable="false" />
+          <Property Name="LicenceDate" Type="date" Nullable="false" />
+          <Property Name="ExpireDate" Type="date" Nullable="false" />
+          <Property Name="Categories" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LicenceSeries" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LicenceNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Issued" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RegionSet">
+          <Key>
+            <PropertyRef Name="IdSubjectCode" />
+          </Key>
+          <Property Name="IdSubjectCode" Type="int" Nullable="false" />
+          <Property Name="RegionNameEN" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RegionNameRU" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OkatoCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ISO" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubCodeSet">
+          <Key>
+            <PropertyRef Name="IdCode" />
+          </Key>
+          <Property Name="IdCode" Type="int" Nullable="false" />
+          <Property Name="SubCodeSet" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Licences_Drivers">
+          <End Role="Drivers" Type="Self.Drivers" Multiplicity="1" />
+          <End Role="Licences" Type="Self.Licences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drivers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Licences">
+              <PropertyRef Name="idDriver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubCodeSet_RegionSet">
+          <End Role="RegionSet" Type="Self.RegionSet" Multiplicity="1" />
+          <End Role="SubCodeSet" Type="Self.SubCodeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegionSet">
+              <PropertyRef Name="IdSubjectCode" />
+            </Principal>
+            <Dependent Role="SubCodeSet">
+              <PropertyRef Name="SubCodeSet" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GIBDDStoreContainer">
+          <EntitySet Name="Drivers" EntityType="Self.Drivers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Licences" EntityType="Self.Licences" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegionSet" EntityType="Self.RegionSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCodeSet" EntityType="Self.SubCodeSet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Licences_Drivers" Association="Self.FK_Licences_Drivers">
+            <End Role="Drivers" EntitySet="Drivers" />
+            <End Role="Licences" EntitySet="Licences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubCodeSet_RegionSet" Association="Self.FK_SubCodeSet_RegionSet">
+            <End Role="RegionSet" EntitySet="RegionSet" />
+            <End Role="SubCodeSet" EntitySet="SubCodeSet" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="GIBDD" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="GIBDDContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Drivers" EntityType="GIBDD.Drivers" />
+          <EntitySet Name="Licences" EntityType="GIBDD.Licences" />
+          <EntitySet Name="RegionSet" EntityType="GIBDD.RegionSet" />
+          <EntitySet Name="SubCodeSet" EntityType="GIBDD.SubCodeSet" />
+          <EntitySet Name="sysdiagrams" EntityType="GIBDD.sysdiagrams" />
+          <AssociationSet Name="FK_Licences_Drivers" Association="GIBDD.FK_Licences_Drivers">
+            <End Role="Drivers" EntitySet="Drivers" />
+            <End Role="Licences" EntitySet="Licences" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubCodeSet_RegionSet" Association="GIBDD.FK_SubCodeSet_RegionSet">
+            <End Role="RegionSet" EntitySet="RegionSet" />
+            <End Role="SubCodeSet" EntitySet="SubCodeSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Drivers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Middlename" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PassportSerial" Type="Int32" Nullable="false" />
+          <Property Name="PassportNumber" Type="Int32" Nullable="false" />
+          <Property Name="Postcode" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLife" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Company" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Jobname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Licences" Relationship="GIBDD.FK_Licences_Drivers" FromRole="Drivers" ToRole="Licences" />
+        </EntityType>
+        <EntityType Name="Licences">
+          <Key>
+            <PropertyRef Name="IdZapis" />
+          </Key>
+          <Property Name="IdZapis" Type="Int32" Nullable="false" />
+          <Property Name="idDriver" Type="Int32" Nullable="false" />
+          <Property Name="LicenceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Categories" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LicenceSeries" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LicenceNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Issued" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Drivers" Relationship="GIBDD.FK_Licences_Drivers" FromRole="Licences" ToRole="Drivers" />
+        </EntityType>
+        <EntityType Name="RegionSet">
+          <Key>
+            <PropertyRef Name="IdSubjectCode" />
+          </Key>
+          <Property Name="IdSubjectCode" Type="Int32" Nullable="false" />
+          <Property Name="RegionNameEN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegionNameRU" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OkatoCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ISO" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SubCodeSet" Relationship="GIBDD.FK_SubCodeSet_RegionSet" FromRole="RegionSet" ToRole="SubCodeSet" />
+        </EntityType>
+        <EntityType Name="SubCodeSet">
+          <Key>
+            <PropertyRef Name="IdCode" />
+          </Key>
+          <Property Name="IdCode" Type="Int32" Nullable="false" />
+          <Property Name="SubCodeSet1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RegionSet" Relationship="GIBDD.FK_SubCodeSet_RegionSet" FromRole="SubCodeSet" ToRole="RegionSet" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Licences_Drivers">
+          <End Type="GIBDD.Drivers" Role="Drivers" Multiplicity="1" />
+          <End Type="GIBDD.Licences" Role="Licences" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drivers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Licences">
+              <PropertyRef Name="idDriver" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubCodeSet_RegionSet">
+          <End Type="GIBDD.RegionSet" Role="RegionSet" Multiplicity="1" />
+          <End Type="GIBDD.SubCodeSet" Role="SubCodeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegionSet">
+              <PropertyRef Name="IdSubjectCode" />
+            </Principal>
+            <Dependent Role="SubCodeSet">
+              <PropertyRef Name="SubCodeSet1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="GIBDD" />
+        <Alias Key="Target" Value="GIBDD.Store" />
+        <EntityContainerMapping CdmEntityContainer="GIBDDContainer" StorageEntityContainer="GIBDDStoreContainer">
+          <EntitySetMapping Name="Drivers">
+            <EntityTypeMapping TypeName="GIBDD.Drivers">
+              <MappingFragment StoreEntitySet="Drivers">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Jobname" ColumnName="Jobname" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="AddressLife" ColumnName="AddressLife" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="PassportSerial" ColumnName="PassportSerial" />
+                <ScalarProperty Name="Middlename" ColumnName="Middlename" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Licences">
+            <EntityTypeMapping TypeName="GIBDD.Licences">
+              <MappingFragment StoreEntitySet="Licences">
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Issued" ColumnName="Issued" />
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+                <ScalarProperty Name="LicenceSeries" ColumnName="LicenceSeries" />
+                <ScalarProperty Name="Categories" ColumnName="Categories" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="LicenceDate" ColumnName="LicenceDate" />
+                <ScalarProperty Name="idDriver" ColumnName="idDriver" />
+                <ScalarProperty Name="IdZapis" ColumnName="IdZapis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegionSet">
+            <EntityTypeMapping TypeName="GIBDD.RegionSet">
+              <MappingFragment StoreEntitySet="RegionSet">
+                <ScalarProperty Name="ISO" ColumnName="ISO" />
+                <ScalarProperty Name="OkatoCode" ColumnName="OkatoCode" />
+                <ScalarProperty Name="RegionNameRU" ColumnName="RegionNameRU" />
+                <ScalarProperty Name="RegionNameEN" ColumnName="RegionNameEN" />
+                <ScalarProperty Name="IdSubjectCode" ColumnName="IdSubjectCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCodeSet">
+            <EntityTypeMapping TypeName="GIBDD.SubCodeSet">
+              <MappingFragment StoreEntitySet="SubCodeSet">
+                <ScalarProperty Name="SubCodeSet1" ColumnName="SubCodeSet" />
+                <ScalarProperty Name="IdCode" ColumnName="IdCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="GIBDD.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
